@@ -2,9 +2,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import express, { Application } from 'express';
 import sequelize from './config/database';
+import express, { Application } from 'express';
 
+import clientRoutes from './routes/clientRoutes';
 import invoiceRoutes from './routes/invoiceRoutes';
 
 const app: Application = express();
@@ -12,17 +13,19 @@ const port = process.env.SERVER_PORT || 3000;
 
 app.use(express.json());
 
-app.use('/api', invoiceRoutes);
+app.use('/api/v1/', clientRoutes);
+app.use('/api/v1/', invoiceRoutes);
 
-// Checking database...
-sequelize.sync()
-  .then(() => {
+async function startServer() {
+  try {
+    await sequelize.sync();
     console.info('Successfully connected to the database!');
-  })
-  .catch((err: any) => {
+    app.listen(port, () => {
+      console.info(`Server running on port ${port}`);
+    });
+  } catch (err) {
     console.error('Error connecting to the database:', err);
-  });
+  }
+}
 
-app.listen(port, () => {
-    console.info(`Server running on port ${port}`);
-});
+startServer();

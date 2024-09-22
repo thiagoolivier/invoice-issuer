@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { createInvoice, listInvoices, getInvoice } from '../controllers/invoiceController';
+import { createInvoice } from '../controllers/invoiceController';
+import { validateInvoiceCreation } from '../middlewares/validateInvoice';
 
 const router = Router();
 
-router.post('/invoices', createInvoice);  
-router.get('/invoices', listInvoices);
-router.get('/invoices/:id', getInvoice); 
+router.post('/invoices', validateInvoiceCreation, createInvoice);  
+// router.get('/invoices', listInvoices);
+// router.get('/invoices/:id', getInvoice); 
 
 export default router;

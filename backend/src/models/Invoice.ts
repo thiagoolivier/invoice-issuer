@@ -1,42 +1,77 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../config/database';
+import { Table, Column, Model, DataType, ForeignKey, PrimaryKey, AutoIncrement, BelongsTo } from 'sequelize-typescript';
+import Client from "./Client";
+import { InvoiceAttributes } from "../types";
 
-class Invoice extends Model {
-  public id!: number;
-  public value!: number;
-  public due_date!: Date;
-  public status!: string; 
-  public reference!: string; 
-}
+type InvoiceCreationAttributes = Omit<InvoiceAttributes, 'id'>;
 
-Invoice.init({
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  value: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-  due_date: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  status: {
-    type: DataTypes.ENUM,
-    values: ['Pending','Paid'],
-    allowNull: false,
-    defaultValue: 'Pending',
-  },
-  reference: {
-    type: DataTypes.STRING,
-    allowNull: true,  // Reference to the externally generated invoice
-  },
-}, {
-  sequelize,
+@Table({
   tableName: 'invoices',
-  timestamps: true,
-});
+  timestamps: true,       
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+  paranoid: true,         
+  deletedAt: 'deleted_at',
+})
+class Invoice extends Model<InvoiceAttributes, InvoiceCreationAttributes> implements InvoiceAttributes {
+  
+  @PrimaryKey
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  declare id: number;
+
+  @Column(DataType.STRING)
+  declare payment_method: string;
+
+  @Column(DataType.FLOAT)
+  declare value: number;
+
+  @Column(DataType.STRING)
+  declare currency: string;
+
+  @Column(DataType.DATE)
+  declare due_date: Date;
+
+  @Column(DataType.STRING)
+  declare barcode: string;
+
+  @Column(DataType.STRING)
+  declare formatted_barcode: string;
+
+  @Column(DataType.STRING)
+  declare instruction_line1: string;
+
+  @Column(DataType.STRING)
+  declare instruction_line2: string;
+
+  @ForeignKey(() => Client)
+  @Column(DataType.INTEGER)
+  declare client_id: number;
+
+  @BelongsTo(() => Client)
+  declare client: Client;
+
+  @Column({
+    type: DataType.ENUM(
+      "AUTHORIZED",
+      "PAID",
+      "IN_ANALISYS",
+      "DECLINED",
+      "CANCELED",
+      "WAITING"
+    ),
+    allowNull: false,
+    defaultValue: "WAITING",
+  })
+  declare status: "AUTHORIZED" | "PAID" | "IN_ANALISYS" | "DECLINED" | "CANCELED" | "WAITING";
+
+  @Column(DataType.STRING)
+  declare reference_id: string;
+
+  @Column(DataType.STRING)
+  declare description: string;
+
+  @Column(DataType.JSON)
+  declare links: string;
+}
 
 export default Invoice;
