@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { Request, Response } from "express";
 import { InvoiceService } from "../services/InvoiceService";
-import { InvoiceCreationAttributes, PagBankOrderForm } from "../types";
+import { PagBankOrderForm } from "../types";
 
 export const createInvoice = async (req: Request, res: Response) => {
   try {

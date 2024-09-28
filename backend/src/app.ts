@@ -7,6 +7,7 @@ import express, { Application } from 'express';
 
 import clientRoutes from './routes/clientRoutes';
 import invoiceRoutes from './routes/invoiceRoutes';
+import loginRoutes from './routes/loginRoutes';
 
 const app: Application = express();
 const port = process.env.SERVER_PORT || 3000;
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use('/api/v1/', clientRoutes);
 app.use('/api/v1/', invoiceRoutes);
+app.use('/api/v1/', loginRoutes);
 
 async function startServer() {
   try {
