@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import Client from "../models/Client";
+import Client from "../models/Customer";
 import Invoice from "../models/Invoice";
 import {
   InvoiceAttributes,

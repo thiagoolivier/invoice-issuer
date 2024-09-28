@@ -1,4 +1,4 @@
-export interface ClientAttributes {
+export interface CustomerAttributes {
   id: number;
   name: string;
   birth_date: string;
@@ -15,6 +15,6 @@ export interface ClientAttributes {
   address_country: string;
 }
 
-export type ClientCreationAttributes = Omit<ClientAttributes, 'id'>;
+export type CustomerCreationAttributes = Omit<CustomerAttributes, 'id'>;
 
-export interface ClientForm extends ClientCreationAttributes {}
+export interface CustomerForm extends CustomerCreationAttributes {}

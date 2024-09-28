@@ -1,5 +1,5 @@
 import { Table, Column, Model, DataType, ForeignKey, PrimaryKey, AutoIncrement, BelongsTo } from 'sequelize-typescript';
-import Client from "./Client";
+import Customer from "./Customer";
 import { InvoiceAttributes } from "../types";
 
 type InvoiceCreationAttributes = Omit<InvoiceAttributes, 'id'>;
@@ -43,12 +43,12 @@ class Invoice extends Model<InvoiceAttributes, InvoiceCreationAttributes> implem
   @Column(DataType.STRING)
   declare instruction_line2: string;
 
-  @ForeignKey(() => Client)
+  @ForeignKey(() => Customer)
   @Column(DataType.INTEGER)
-  declare client_id: number;
+  declare customer_id: number;
 
-  @BelongsTo(() => Client)
-  declare client: Client;
+  @BelongsTo(() => Customer)
+  declare customer: Customer;
 
   @Column({
     type: DataType.ENUM(

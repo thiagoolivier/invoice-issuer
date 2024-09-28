@@ -8,7 +8,7 @@ export interface InvoiceAttributes {
   payment_method: string;
   value: number;
   currency: string;
-  client_id: number;
+  customer_id: number;
   status: 
     | "AUTHORIZED"
     | "PAID"

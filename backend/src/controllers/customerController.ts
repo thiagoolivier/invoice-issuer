@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { ClientService } from "../services/ClientService";
+import { CustomerService } from "../services/CustomerService";
 
-export const createClient = async (req: Request, res: Response) => {
+export const createCustomer = async (req: Request, res: Response) => {
   try {
-    const service = new ClientService();
+    const service = new CustomerService();
 
-    const client = await service.createClient({
+    const customer = await service.createCustomer({
       name: req.body.name,
       cpf_cnpj: req.body.cpf_cnpj,
       email: req.body.email,
@@ -22,14 +22,14 @@ export const createClient = async (req: Request, res: Response) => {
     });
 
     res.status(201).json({
-      message: 'Cliente successfuly created!',
-      client
+      message: 'Customer successfuly created!',
+      customer
     });
   } catch (error: unknown) {
-    let errorMessage = 'Unknown error occurred while creating client.';
+    let errorMessage = 'Unknown error occurred while creating Customer.';
 
     if (error instanceof Error) {
-      errorMessage = `Error creating client: ${error.message}`;
+      errorMessage = `Error creating Customer: ${error.message}`;
     }
 
     res.status(500).json({

@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { createClient } from '../controllers/clientController';
-import { validateClientCreation } from '../middlewares/validateClient';
+import { createCustomer } from '../controllers/customerController';
+import { validateCustomerCreation } from '../middlewares/validateCustomer';
 import { authMiddleware } from '../middlewares/authMiddleware';
 
 const router = Router();
 
-router.post('/clients', authMiddleware, validateClientCreation, createClient);  
+router.post('/customers', authMiddleware, validateCustomerCreation, createCustomer);  
 // router.get('/invoices', listInvoices);
 // router.get('/invoices/:id', getInvoice); 
 

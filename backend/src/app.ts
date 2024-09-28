@@ -5,7 +5,7 @@ dotenv.config();
 import sequelize from './config/database';
 import express, { Application } from 'express';
 
-import clientRoutes from './routes/clientRoutes';
+import customerRoutes from './routes/customerRoutes';
 import invoiceRoutes from './routes/invoiceRoutes';
 import loginRoutes from './routes/loginRoutes';
 
@@ -14,7 +14,7 @@ const port = process.env.SERVER_PORT || 3000;
 
 app.use(express.json());
 
-app.use('/api/v1/', clientRoutes);
+app.use('/api/v1/', customerRoutes);
 app.use('/api/v1/', invoiceRoutes);
 app.use('/api/v1/', loginRoutes);
 

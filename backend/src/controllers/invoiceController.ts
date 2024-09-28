@@ -16,7 +16,7 @@ export const createInvoice = async (req: Request, res: Response) => {
       currency,
       charge_description,
       due_date,
-      client_id,
+      customer_id,
       items,
       shipping,
       instruction_line1,
@@ -30,7 +30,7 @@ export const createInvoice = async (req: Request, res: Response) => {
       currency,
       description: charge_description,
       due_date: new Date(due_date),
-      client_id,
+      customer_id,
       instruction_line1,
       instruction_line2,
     });

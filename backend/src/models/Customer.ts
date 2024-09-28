@@ -1,16 +1,16 @@
 import Invoice from "./Invoice";
-import { ClientAttributes, ClientCreationAttributes } from "../types";
+import { CustomerAttributes, CustomerCreationAttributes } from "../types";
 import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, HasMany } from 'sequelize-typescript';
 
 @Table({
-  tableName: 'clients',
+  tableName: 'customers',
   timestamps: true,
   paranoid: true,
   deletedAt: 'deleted_at',
   createdAt: 'created_at',
   updatedAt: 'updated_at'
 })
-class Client extends Model<ClientAttributes, ClientCreationAttributes> implements ClientAttributes {
+class Customer extends Model<CustomerAttributes, CustomerCreationAttributes> implements CustomerAttributes {
   
   @PrimaryKey
   @AutoIncrement
@@ -97,4 +97,4 @@ class Client extends Model<ClientAttributes, ClientCreationAttributes> implement
   declare invoices: Invoice[];
 }
 
-export default Client;
+export default Customer;
