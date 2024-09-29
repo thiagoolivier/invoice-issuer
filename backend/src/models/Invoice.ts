@@ -1,19 +1,30 @@
-import { Table, Column, Model, DataType, ForeignKey, PrimaryKey, AutoIncrement, BelongsTo, CreatedAt, UpdatedAt, DeletedAt } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  ForeignKey,
+  PrimaryKey,
+  AutoIncrement,
+  BelongsTo,
+  CreatedAt,
+  UpdatedAt,
+  DeletedAt,
+  Default,
+} from "sequelize-typescript";
 import Customer from "./Customer";
 import { InvoiceAttributes } from "../types";
+import { Sequelize } from "sequelize";
 
-type InvoiceCreationAttributes = Omit<InvoiceAttributes, 'id'>;
+type InvoiceCreationAttributes = Omit<InvoiceAttributes, "id">;
 
 @Table({
-  tableName: 'invoices',
-  timestamps: true,       
-  createdAt: 'created_at',
-  updatedAt: 'updated_at',
-  paranoid: true,         
-  deletedAt: 'deleted_at',
+  tableName: "invoices",
 })
-class Invoice extends Model<InvoiceAttributes, InvoiceCreationAttributes> implements InvoiceAttributes {
-  
+class Invoice
+  extends Model<InvoiceAttributes, InvoiceCreationAttributes>
+  implements InvoiceAttributes
+{
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
@@ -62,7 +73,13 @@ class Invoice extends Model<InvoiceAttributes, InvoiceCreationAttributes> implem
     allowNull: false,
     defaultValue: "WAITING",
   })
-  declare status: "AUTHORIZED" | "PAID" | "IN_ANALISYS" | "DECLINED" | "CANCELED" | "WAITING";
+  declare status:
+    | "AUTHORIZED"
+    | "PAID"
+    | "IN_ANALISYS"
+    | "DECLINED"
+    | "CANCELED"
+    | "WAITING";
 
   @Column(DataType.STRING)
   declare reference_id: string;
@@ -73,18 +90,21 @@ class Invoice extends Model<InvoiceAttributes, InvoiceCreationAttributes> implem
   @Column(DataType.JSON)
   declare links: string;
 
-  // Timestamps
   @CreatedAt
-  @Column(DataType.DATE)
-  declare createdAt: Date;
+  @Default(Sequelize.literal("CURRENT_TIMESTAMP"))
+  @Column({
+    allowNull: false
+  })
+  declare created_at: Date;
 
   @UpdatedAt
-  @Column(DataType.DATE)
-  declare updatedAt: Date;
+  @Default(Sequelize.literal("CURRENT_TIMESTAMP"))
+  @Column
+  declare updated_at: Date;
 
   @DeletedAt
-  @Column(DataType.DATE)
-  declare deletedAt: Date | null;
+  @Column
+  declare deleted_at: Date;
 }
 
 export default Invoice;

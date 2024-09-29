@@ -10,16 +10,16 @@ import {
   HasMany,
   BelongsTo,
   ForeignKey,
+  CreatedAt,
+  UpdatedAt,
+  DeletedAt,
+  Default,
 } from "sequelize-typescript";
 import User from "./User";
+import { Sequelize } from "sequelize";
 
 @Table({
   tableName: "customers",
-  timestamps: true,
-  paranoid: true,
-  deletedAt: "deleted_at",
-  createdAt: "created_at",
-  updatedAt: "updated_at",
 })
 class Customer
   extends Model<CustomerAttributes, CustomerCreationAttributes>
@@ -66,44 +66,28 @@ class Customer
   })
   declare phone: string;
 
-  @Column({
-    type: DataType.STRING(64),
-  })
+  @Column(DataType.STRING(64))
   declare address_region: string;
 
-  @Column({
-    type: DataType.STRING(32),
-  })
+  @Column(DataType.STRING(32))
   declare address_city: string;
 
-  @Column({
-    type: DataType.STRING(32),
-  })
+  @Column(DataType.STRING(32))
   declare address_postal_code: string;
 
-  @Column({
-    type: DataType.STRING(64),
-  })
+  @Column(DataType.STRING(64))
   declare address_street: string;
 
-  @Column({
-    type: DataType.STRING(16),
-  })
+  @Column(DataType.STRING(16))
   declare address_number: string;
 
-  @Column({
-    type: DataType.STRING(64),
-  })
+  @Column(DataType.STRING(64))
   declare address_locality: string;
 
-  @Column({
-    type: DataType.STRING(16),
-  })
+  @Column(DataType.STRING(16))
   declare address_region_code: string;
 
-  @Column({
-    type: DataType.STRING(64),
-  })
+  @Column(DataType.STRING(64))
   declare address_country: string;
 
   @HasMany(() => Invoice)
@@ -114,6 +98,22 @@ class Customer
 
   @BelongsTo(() => User)
   declare user: User;
+
+  @CreatedAt
+  @Default(Sequelize.literal('CURRENT_TIMESTAMP'))
+  @Column({
+    allowNull: false
+  })
+  declare created_at: Date;
+
+  @UpdatedAt
+  @Default(Sequelize.literal('CURRENT_TIMESTAMP'))
+  @Column
+  declare updated_at: Date;
+
+  @DeletedAt
+  @Column
+  declare deleted_at: Date;
 }
 
 export default Customer;
