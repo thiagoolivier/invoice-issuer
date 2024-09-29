@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import Customer from "../models/Customer";
 import Invoice from "../models/Invoice";
+import User from "../models/User";
 
 const sequelize = new Sequelize(
   process.env.DB_NAME || "your_db",
@@ -9,7 +10,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST || "localhost",
     dialect: "postgres",
-    models: [Customer, Invoice],
+    models: [User, Customer, Invoice],
   }
 );
 

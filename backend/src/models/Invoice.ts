@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, ForeignKey, PrimaryKey, AutoIncrement, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, PrimaryKey, AutoIncrement, BelongsTo, CreatedAt, UpdatedAt, DeletedAt } from 'sequelize-typescript';
 import Customer from "./Customer";
 import { InvoiceAttributes } from "../types";
 
@@ -72,6 +72,19 @@ class Invoice extends Model<InvoiceAttributes, InvoiceCreationAttributes> implem
 
   @Column(DataType.JSON)
   declare links: string;
+
+  // Timestamps
+  @CreatedAt
+  @Column(DataType.DATE)
+  declare createdAt: Date;
+
+  @UpdatedAt
+  @Column(DataType.DATE)
+  declare updatedAt: Date;
+
+  @DeletedAt
+  @Column(DataType.DATE)
+  declare deletedAt: Date | null;
 }
 
 export default Invoice;

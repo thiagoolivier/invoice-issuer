@@ -1,24 +1,37 @@
 import Invoice from "./Invoice";
 import { CustomerAttributes, CustomerCreationAttributes } from "../types";
-import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, HasMany } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  PrimaryKey,
+  AutoIncrement,
+  HasMany,
+  BelongsTo,
+  ForeignKey,
+} from "sequelize-typescript";
+import User from "./User";
 
 @Table({
-  tableName: 'customers',
+  tableName: "customers",
   timestamps: true,
   paranoid: true,
-  deletedAt: 'deleted_at',
-  createdAt: 'created_at',
-  updatedAt: 'updated_at'
+  deletedAt: "deleted_at",
+  createdAt: "created_at",
+  updatedAt: "updated_at",
 })
-class Customer extends Model<CustomerAttributes, CustomerCreationAttributes> implements CustomerAttributes {
-  
+class Customer
+  extends Model<CustomerAttributes, CustomerCreationAttributes>
+  implements CustomerAttributes
+{
   @PrimaryKey
   @AutoIncrement
   @Column({
     type: DataType.INTEGER,
   })
   declare id: number;
-  
+
   @Column({
     type: DataType.STRING(128),
     allowNull: false,
@@ -36,7 +49,7 @@ class Customer extends Model<CustomerAttributes, CustomerCreationAttributes> imp
     type: DataType.DATE,
     allowNull: false,
   })
-  declare birth_date: string;  
+  declare birth_date: string;
 
   @Column({
     type: DataType.STRING(64),
@@ -95,6 +108,12 @@ class Customer extends Model<CustomerAttributes, CustomerCreationAttributes> imp
 
   @HasMany(() => Invoice)
   declare invoices: Invoice[];
+
+  @ForeignKey(() => User)
+  declare user_id: number;
+
+  @BelongsTo(() => User)
+  declare user: User;
 }
 
 export default Customer;
